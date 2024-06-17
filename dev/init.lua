@@ -14,20 +14,21 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   {
-  "ibhagwan/fzf-lua",
-  -- optional for icon support
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-  config = function()
-    -- calling `setup` is optional for customization
-    require("fzf-lua").setup({})
-  end
+    "ibhagwan/fzf-lua",
+    -- optional for icon support
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      -- calling `setup` is optional for customization
+      require("fzf-lua").setup({})
+    end
   },
 })
 
 -- 最小構成
 local function migemo_to_regex(query)
   -- TODO:rustmigemo or jsmigemo with denops
-  -- TODO:ソーターとしての実装
+  -- TODO:Sorterとしての実装
+  -- https://zenn.dev/uga_rosa/articles/318bba82c53a1d
   -- https://github.com/rhysd/migemo-search.vim
   -- https://github.com/lambdalisue/vim-kensaku
   -- https://github.com/Allianaab2m/telescope-kensaku.nvim
@@ -40,6 +41,7 @@ function live_grep_with_migemo()
     input_fn = function()
       local query = vim.fn.input("Query: ")
       -- TODO:Implement i-search with migemo
+      -- https://github.com/ibhagwan/fzf-lua/wiki/Advanced#live-queries-fzf_live
       -- local regex = migemo_to_regex(query)
       return io.popen('grep -rn --color=never -E ' .. regex .. ' .'):lines()
     end,
